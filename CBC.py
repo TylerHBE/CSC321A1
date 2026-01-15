@@ -47,7 +47,6 @@ def encrypt_cbc_text(text):
 
     # initialization parameters
     aes_key = get_random_bytes(16)
-    offset = 54
     block_size=16
 
 
@@ -67,7 +66,7 @@ def encrypt_cbc_text(text):
     encrypted_data = bytearray()
     iv = bytearray(os.urandom(block_size))  # Random Initialization Vector (IV)
     prev_block = iv
-    for i in range(offset, len(data), block_size):
+    for i in range(0, len(data), block_size):
         block = data[i:i+block_size]
         block = [x ^ y for x, y in zip(block, prev_block)]
         # Pad block if it's less than 16 bytes, although this should not happen due to previous padding
@@ -77,3 +76,37 @@ def encrypt_cbc_text(text):
         encrypted_data.extend(encrypted_block)
 
     return encrypted_data.decode('utf-8', errors='ignore'), aes_key, iv
+
+def decrypt_cbc_text(text, aes_key, iv):
+
+
+    # initialization parameters
+    block_size=16
+
+    # Read the data we want to encrypt into memory
+    data = bytearray(text)   # make editable copy in memory
+
+
+    # ---- EDITS HERE ----
+    cipher = AES.new(aes_key, AES.MODE_CBC)
+
+    # Pad data to be multiple of block size (should not be necessary for decryption)
+    padding_byte = block_size - ((len(data)) % block_size)
+    for i in range(padding_byte):
+        data.append(padding_byte)
+
+    # Decrypt the data in 16-byte blocks
+    decrypted_data = bytearray()
+    prev_block = data[len(data)-block_size:len(data)]  # Start with prev block
+    
+    for i in range(len(data), 0, block_size):
+        if i <= block_size:
+            prev_block = iv
+        else:
+            prev_block = data[i-block_size:i]
+        block = data[i-block_size:i]
+        block = cipher.decrypt(bytes(block))
+        block = [x ^ y for x, y in zip(block, prev_block)]
+        decrypted_data[:0] = block
+
+    return decrypted_data.decode('utf-8', errors='ignore')
