@@ -1,3 +1,3 @@
-import ECB
+import CBC
 
-ECB.encrypt_ecb("mustang.bmp")
+CBC.encrypt_cbc("mustang.bmp")
