@@ -19,7 +19,7 @@ def verify(message, key, iv) -> bool:
     return False
 
 
-if __name__ == "__main__":
+def bit_flip_attack():
     message = ";admin=true"
     text, key, iv = submit(message)
     #edit the text
