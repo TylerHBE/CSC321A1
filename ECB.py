@@ -34,6 +34,6 @@ def encrypt_ecb(filename):
         encrypted_data.extend(encrypted_block)
 
     # Write the modified data back to a new file
-    with open("output.bmp", "wb") as f:
+    with open("output_ECB.bmp", "wb") as f:
         f.write(data[:offset])  # Write the header unchanged
         f.write(encrypted_data)  # Write the encrypted data

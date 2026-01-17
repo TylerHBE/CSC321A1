@@ -58,7 +58,6 @@ def encrypt_cbc_text(text):
     cipher = AES.new(aes_key, AES.MODE_CBC, iv)
     encrypted_data = cipher.encrypt(bytes(data))
 
-
     return encrypted_data, aes_key, iv
 
 def decrypt_cbc_text(data, aes_key, iv):
@@ -68,6 +67,5 @@ def decrypt_cbc_text(data, aes_key, iv):
     cipher = AES.new(aes_key, AES.MODE_CBC, iv)
 
     decrypted_data = cipher.decrypt(data)
-
 
     return decrypted_data.decode('utf-8', errors='ignore')

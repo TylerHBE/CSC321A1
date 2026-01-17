@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import urllib.parse
-import CBC
+import CBC2 as CBC
 
 
 def submit(message):
